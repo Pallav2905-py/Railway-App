@@ -7,6 +7,8 @@ import ScrollTop from "./ScrollTop";
 import NextNProgress from "nextjs-progressbar";
 import { useState, useEffect } from "react";
 
+
+
 const ThemeProvider = ({ children }) => {
   const [mounted, setMounted] = useState(false);
 
@@ -17,6 +19,8 @@ const ThemeProvider = ({ children }) => {
   if (!mounted) {
     return <>{children}</>;
   }
+
+
 
   return (
     <Theme attribute={"class"} enableSystem={false}>
