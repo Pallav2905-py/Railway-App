@@ -65,7 +65,7 @@ function Dashboard() {
     useEffect(() => {
         const fetchComplaints = async () => {
             try {
-                const res = await fetch('http://localhost:3000/api/v1/complaint/get-all-complaints', {
+                const res = await fetch('http://localhost:8080/api/v1/complaint/get-all-complaints', {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json"
