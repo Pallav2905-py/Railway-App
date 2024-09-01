@@ -1,25 +1,62 @@
-"use client";
-
-import { useState } from "react";
+import React, { useState } from 'react';
+import { registerComplaint } from '../../services/api'; // Import the API function
 
 const ComplaintForm = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [prn, setPrn] = useState("");
-
-  const [photos, setPhotos] = useState([]);
-  const [videos, setVideos] = useState([]);
-  const [audio, setAudio] = useState(null);
-  const [category, setCategory] = useState("");
-  const [urgency, setUrgency] = useState("Low");
-  const [location, setLocation] = useState("");
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    pnr: '',
+    file: null, // Initialize file as null
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === 'file') {
+      setFormData({ ...formData, file: files[0] }); // Handle single file upload
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.title.trim()) return 'Title is required';
+    if (!formData.description.trim()) return 'Description is required';
+    if (!formData.pnr.trim()) return 'PNR is required';
+    if (!formData.file) return 'File is required';
+    return '';
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., send data to backend)
-    // For now, we'll just set submitted to true
-    setSubmitted(true);
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+  
+    setLoading(true);
+    setError('');
+  
+    try {
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach(key => {
+        formDataToSend.append(key, formData[key]);
+      });
+  
+      const response = await registerComplaint(formDataToSend); // Use the API function
+  
+      if (response) {
+        setSubmitted(true);
+      }
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      setError(err.response?.data?.message || 'An error occurred while submitting the complaint');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,13 +70,14 @@ const ComplaintForm = () => {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
-              <label htmlFor="title" className="block text-lg font-medium">PNR No.</label>
+              <label htmlFor="pnr" className="block text-lg font-medium">PNR No.</label>
               <input
                 type="text"
-                id="title"
-                value={title}
-                onChange={(e) => setPrn(e.target.value)}
-                className="w-full p-2 border border-gray-100 rounded-sm"
+                id="pnr"
+                name="pnr"
+                value={formData.pnr}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-sm"
                 required
               />
             </div>
@@ -48,9 +86,10 @@ const ComplaintForm = () => {
               <input
                 type="text"
                 id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-2 border border-gray-100 rounded-sm"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-sm"
                 required
               />
             </div>
@@ -58,80 +97,36 @@ const ComplaintForm = () => {
               <label htmlFor="description" className="block text-lg font-medium">Description</label>
               <textarea
                 id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded-sm"
                 rows="3"
                 required
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="photos" className="block text-lg  font-medium">Photos</label>
+              <label htmlFor="file" className="block text-lg font-medium">Upload File</label>
               <input
                 type="file"
-                id="photos"
-                multiple
-                onChange={(e) => setPhotos(Array.from(e.target.files))}
+                id="file"
+                name="file"
+                onChange={handleChange}
                 className="w-full text-sm border border-gray-300 rounded-sm"
+                required
               />
             </div>
-            {/* <div className="space-y-1">
-              <label htmlFor="videos" className="block text-lg font-medium">Videos</label>
-              <input
-                type="file"
-                id="videos"
-                multiple
-                accept="video/*"
-                onChange={(e) => setVideos(Array.from(e.target.files))}
-                className="w-full text-sm border border-gray-300 rounded-sm"
-              />
-            </div> */}
-            {/* <div className="space-y-1">
-              <label htmlFor="category" className="block text-lg font-medium">Category</label>
-              <select
-                id="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-sm"
-                required
-              >
-                <option value="">Select Category</option>
-                <option value="cleanliness">Cleanliness</option>
-                <option value="damage">Damage</option>
-                <option value="staff-behaviour">Staff Behaviour</option>
-                <option value="other">Other</option>
-              </select>
-            </div> */}
-            {/* <div className="space-y-1">
-              <label htmlFor="urgency" className="block text-lg font-medium">Urgency</label>
-              <select
-                id="urgency"
-                value={urgency}
-                onChange={(e) => setUrgency(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-sm"
-                required
-              >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select>
-            </div> */}
-            <div className="space-y-1">
-              <label htmlFor="location" className="block text-lg font-medium">Location (optional)</label>
-              <input
-                type="text"
-                id="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-sm"
-              />
-            </div>
-            
+            {error && (
+              <div className="bg-red-100 text-red-800 p-2 rounded">
+                {error}
+              </div>
+            )}
             <button
               type="submit"
-              className="w-full py-2 px-3 bg-rose-600 text-white font-semibold rounded-sm hover:bg-rose-700 "
+              className="w-full py-2 px-3 bg-rose-600 text-white font-semibold rounded-sm hover:bg-rose-700 disabled:bg-gray-400"
+              disabled={loading}
             >
-              Submit Complaint
+              {loading ? 'Submitting...' : 'Submit Complaint'}
             </button>
           </form>
         )}
@@ -141,3 +136,5 @@ const ComplaintForm = () => {
 };
 
 export default ComplaintForm;
+
+
