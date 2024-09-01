@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import BackgroundDots from "./BackgroundDot";
+import ComplaintForm from "@/app/complaint/page";
 
 const HeroSection = () => {
   return (
@@ -17,11 +18,13 @@ const HeroSection = () => {
                     during your train journey. Seamless transitions, multimedia support, and faster resolutions.
                   </p>
         </h1>
-        <button className="md:text-base text-sm hover:border-2 border-2 border-transparent font-semibold py-3 px-8 md:px-10 text-white bg-rose-600 hover:border-rose-600 hover:bg-transparent hover:text-rose-600 rounded-full">
-          <Link href="" target="_blank">
-            Submit a Complaint
-          </Link>
-        </button>
+        <Link href="/complaint">
+        <button
+  className="relative z-50 inline-block rounded-sm bg-red-600 px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out round hover:bg-red-700"
+>
+  submit a complaint
+</button>
+      </Link>
       </div>
       <div className="w-full relative">
         

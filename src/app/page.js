@@ -5,6 +5,7 @@ import Services from "@/components/Services";
 import Subscribe from "@/components/Subscribe";
 import Team from "@/components/Team/Team";
 import Work from "@/components/Work";
+import ComplaintForm from "./complaint/page";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <HeroSection />
       <Features />
       <Services />
+      <ComplaintForm />
 
       
       <Work />
