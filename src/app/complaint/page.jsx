@@ -5,6 +5,8 @@ import { useState } from "react";
 const ComplaintForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [prn, setPrn] = useState("");
+
   const [photos, setPhotos] = useState([]);
   const [videos, setVideos] = useState([]);
   const [audio, setAudio] = useState(null);
@@ -30,6 +32,17 @@ const ComplaintForm = () => {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1">
+              <label htmlFor="title" className="block text-lg font-medium">PNR No.</label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setPrn(e.target.value)}
+                className="w-full p-2 border border-gray-100 rounded-sm"
+                required
+              />
+            </div>
             <div className="space-y-1">
               <label htmlFor="title" className="block text-lg font-medium">Complaint Title</label>
               <input
@@ -62,7 +75,7 @@ const ComplaintForm = () => {
                 className="w-full text-sm border border-gray-300 rounded-sm"
               />
             </div>
-            <div className="space-y-1">
+            {/* <div className="space-y-1">
               <label htmlFor="videos" className="block text-lg font-medium">Videos</label>
               <input
                 type="file"
@@ -72,8 +85,8 @@ const ComplaintForm = () => {
                 onChange={(e) => setVideos(Array.from(e.target.files))}
                 className="w-full text-sm border border-gray-300 rounded-sm"
               />
-            </div>
-            <div className="space-y-1">
+            </div> */}
+            {/* <div className="space-y-1">
               <label htmlFor="category" className="block text-lg font-medium">Category</label>
               <select
                 id="category"
@@ -88,8 +101,8 @@ const ComplaintForm = () => {
                 <option value="staff-behaviour">Staff Behaviour</option>
                 <option value="other">Other</option>
               </select>
-            </div>
-            <div className="space-y-1">
+            </div> */}
+            {/* <div className="space-y-1">
               <label htmlFor="urgency" className="block text-lg font-medium">Urgency</label>
               <select
                 id="urgency"
@@ -102,7 +115,7 @@ const ComplaintForm = () => {
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
               </select>
-            </div>
+            </div> */}
             <div className="space-y-1">
               <label htmlFor="location" className="block text-lg font-medium">Location (optional)</label>
               <input
