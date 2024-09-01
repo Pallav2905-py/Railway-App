@@ -1,73 +1,37 @@
+"use client"
 import React, { useState } from 'react';
 import { registerComplaint } from '../../services/api'; // Import the API function
+import axios from 'axios';
 
 const ComplaintForm = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    pnr: '',
-    file: null, // Initialize file as null
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [pnr, setpnr] = useState(false)
+  const [title, setTitle] = useState(false)
+  const [description, setDescription] = useState(false)
+  const [file, setFile] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'file') {
-      setFormData({ ...formData, file: files[0] }); // Handle single file upload
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
+  async function handleSubmit(e){
+    e.preventDefault()
+    const formdata = new FormData()
+    formdata.append('pnr', pnr)
+    formdata.append('description', description)
+    formdata.append('title', title)
+    formdata.append('file', file)
 
-  const validateForm = () => {
-    if (!formData.title.trim()) return 'Title is required';
-    if (!formData.description.trim()) return 'Description is required';
-    if (!formData.pnr.trim()) return 'PNR is required';
-    if (!formData.file) return 'File is required';
-    return '';
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
-      return;
+    const {data} = await axios.post(`http://localhost:8080/api/v1/complaint/register-complaint`, formdata)
+    console.log(data)
+    
+    if(data.sucess){
+      setSubmitted(true)
     }
-  
-    setLoading(true);
-    setError('');
-  
-    try {
-      const formDataToSend = new FormData();
-      Object.keys(formData).forEach(key => {
-        formDataToSend.append(key, formData[key]);
-      });
-  
-      const response = await registerComplaint(formDataToSend); // Use the API function
-  
-      if (response) {
-        setSubmitted(true);
-      }
-    } catch (err) {
-      console.error(err); // Log the error for debugging
-      setError(err.response?.data?.message || 'An error occurred while submitting the complaint');
-    } finally {
-      setLoading(false);
-    }
-  };
+    
+  }
 
   return (
     <section className="container mx-auto px-4 py-6 max-w-lg">
       <div className="border border-gray-300 p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4 border-b border-gray-300 pb-2">Register a Complaint</h2>
-        {submitted ? (
-          <div className="bg-green-100 text-green-800 p-4 rounded border border-green-200">
-            <p>Your complaint has been registered successfully. You will receive an acknowledgment with a unique ID shortly.</p>
-          </div>
-        ) : (
+        
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
               <label htmlFor="pnr" className="block text-lg font-medium">PNR No.</label>
@@ -75,8 +39,7 @@ const ComplaintForm = () => {
                 type="text"
                 id="pnr"
                 name="pnr"
-                value={formData.pnr}
-                onChange={handleChange}
+                onChange={(e)=>{setpnr(e.target.value)}}
                 className="w-full p-2 border border-gray-300 rounded-sm"
                 required
               />
@@ -87,8 +50,7 @@ const ComplaintForm = () => {
                 type="text"
                 id="title"
                 name="title"
-                value={formData.title}
-                onChange={handleChange}
+                onChange={(e)=>{setTitle(e.target.value)}}
                 className="w-full p-2 border border-gray-300 rounded-sm"
                 required
               />
@@ -98,8 +60,7 @@ const ComplaintForm = () => {
               <textarea
                 id="description"
                 name="description"
-                value={formData.description}
-                onChange={handleChange}
+                onChange={(e)=>{setDescription(e.target.value)}}
                 className="w-full p-2 border border-gray-300 rounded-sm"
                 rows="3"
                 required
@@ -111,25 +72,18 @@ const ComplaintForm = () => {
                 type="file"
                 id="file"
                 name="file"
-                onChange={handleChange}
+                onChange={(e)=>{setFile(e.target.files[0])}}
                 className="w-full text-sm border border-gray-300 rounded-sm"
                 required
               />
             </div>
-            {error && (
-              <div className="bg-red-100 text-red-800 p-2 rounded">
-                {error}
-              </div>
-            )}
             <button
               type="submit"
               className="w-full py-2 px-3 bg-rose-600 text-white font-semibold rounded-sm hover:bg-rose-700 disabled:bg-gray-400"
-              disabled={loading}
-            >
-              {loading ? 'Submitting...' : 'Submit Complaint'}
+            >Submit
             </button>
           </form>
-        )}
+        
       </div>
     </section>
   );
