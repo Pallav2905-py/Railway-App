@@ -305,7 +305,7 @@ function Dashboard() {
                                                 {complaint.AI_analysis.category}
                                             </p>
                                         </div>
-                                        <div className={`ml-auto font-semibold text-sm text-white rounded-full px-2 py-1 ${complaint.AI_analysis.priority === "high" ? "bg-red-500" : complaint.AI_analysis.priority === "med" ? "bg-orange-500" : "bg-green-500"
+                                        <div className={`ml-auto font-semibold text-sm text-white rounded-full px-2 py-1 ${complaint.AI_analysis.priority === "high" ? "bg-red-500" : complaint.AI_analysis.priority === "medium" ? "bg-orange-500" : "bg-green-500"
                                             }`}>{complaint.AI_analysis.priority.toUpperCase()}</div>
                                     </div>
                               
