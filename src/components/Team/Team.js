@@ -8,7 +8,7 @@ import BackgroundDots from "../HeroSection/BackgroundDot";
 const TeamCard = ({ imgSrc, name, title }) => {
   return (
     <div className="relative flex flex-col gap-1 md:hover:shadow-lg rounded-xl md:py-10 team-card md:cursor-pointer">
-      
+
       <Image
         src={imgSrc}
         width={130}
@@ -42,27 +42,32 @@ const TeamCard = ({ imgSrc, name, title }) => {
 const Team = () => {
   return (
     <>
-    <BackgroundDots className="absolute top-0 left-0 z-0 w-full h-full" />
-    <section className="container mx-auto px-5 md:px-16 lg:px-24">
-      
-      <span className="service-name text-center ">OUR TEAM</span>
-      <h2 className="title text-center md:w-1/2 mx-auto">
-        The most qualified and talented individuals
-      </h2>
+      <BackgroundDots className="absolute top-0 left-0 z-0 w-full h-full" />
+      <section className="container mx-auto px-5 md:px-16 lg:px-24">
 
-      <div className="mx-auto grid grid-cols-2 lg:grid-cols-3 gap-y-8 sm:gap-8 mt-16">
-        <TeamCard
-          imgSrc={"/team/1.png"}
-          name="Saimon Harmer"
-          title=""
-        />
-        <TeamCard imgSrc={"/team/2.png"} name="Aaron Nunez" title="Founder" />
-        <TeamCard
-          imgSrc={"/team/3.png"}
-          name="Aaron Nunez"
-          title=""
-        />
-        <TeamCard
+        <span className="service-name text-center "></span>
+        <h2 className="title text-center md:w-1/2 mx-auto">
+          Empowering a brighter future through visionary leadership and unwavering commitment.
+        </h2>
+
+        <div className="mx-auto grid grid-cols-2 lg:grid-cols-3 gap-y-8 sm:gap-8 mt-16">
+          <TeamCard
+
+            imgSrc={"/team/1.jpeg"}
+            name="Narendra Modi"
+            title=""
+          />
+          <TeamCard
+            imgSrc={"/team/2_new.jpeg"}
+            name="Ashwini Vaishnaw"
+            title=""
+          />
+          <TeamCard
+            imgSrc={"/team/3.jpeg"}
+            name="Amit Shah"
+            title=""
+          />
+          {/* <TeamCard
           imgSrc={"/team/4.png"}
           name="Lina Jutila"
           title=""
@@ -76,9 +81,9 @@ const Team = () => {
           imgSrc={"/team/6.png"}
           name="Aaron Nunez"
           title=""
-        />
-      </div>
-    </section>
+        /> */}
+        </div>
+      </section>
     </>
   );
 };

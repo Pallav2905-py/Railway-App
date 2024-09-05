@@ -78,39 +78,6 @@ const Footer = () => {
               </nav>
             </div>
             <div>
-              <p className="font-medium">Services</p>
-              <nav className="flex flex-col mt-4 space-y-2 text-sm ">
-                <Link
-                  href="/coaching"
-                  className="hover:opacity-75 hover:border-b hover:border-neutral-400 w-fit"
-                >
-                  Coaching
-                </Link>
-                <Link
-                  href="/reviews"
-                  className="hover:opacity-75 hover:border-b hover:border-neutral-400 w-fit"
-                >
-                  Company Review
-                </Link>
-                <Link
-                  href="/accounts"
-                  className="hover:opacity-75 hover:border-b hover:border-neutral-400 w-fit"
-                >
-                  Accounts Review
-                </Link>
-                <Link
-                  href="/consulting"
-                  className="hover:opacity-75 hover:border-b hover:border-neutral-400 w-fit"
-                >
-                  HR Consulting
-                </Link>
-                <Link
-                  href="/seo"
-                  className="hover:opacity-75 hover:border-b hover:border-neutral-400 w-fit"
-                >
-                  SEO Optimisation
-                </Link>
-              </nav>
             </div>
             <div>
               <p className="font-medium">Helpful Links</p>
